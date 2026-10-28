@@ -4,7 +4,7 @@
 
 LLMs write fluent leadership briefs, and they also round, guess and invent numbers. This project puts guardrails around that:
 
-1. **Governed KPI registry:** 41 KPIs, each with a definition, unit, display format and source. Derived KPIs (gaps, growth rates) are computed from their inputs with the formula recorded, not typed into a slide.
+1. **Governed KPI registry:** 37 KPIs plus 4 analysis definitions (scenario sizes, cut-offs, horizons), each with a definition, unit, display format and source. Derived KPIs (gaps, growth rates) are computed from their inputs with the formula recorded, not typed into a slide.
 2. **MCP tools for Claude:** Claude pulls KPIs and drafting rules through the server instead of being pasted numbers.
 3. **Number checker:** `check_draft` extracts every figure from a draft (percentages, $K/$M, counts, percentage points) and traces each to a KPI, allowing only the rounding implied by how it is written. Anything untraceable comes back as unsupported.
 4. **Leadership deck:** a 5-slide business review (`outputs/gtm_business_review.pptx`) built only from checked numbers.
@@ -52,7 +52,7 @@ Resources: `gtm://drafting-rules`, `gtm://reference-brief`.
 
 ```bash
 pip install -r requirements.txt
-pytest -q                      # 14 tests, including an end-to-end MCP client test
+pytest -q                      # 15 tests, including an end-to-end MCP client test
 python export_review.py        # validated brief -> outputs/
 npm install pptxgenjs          # once
 node build_deck.js             # deck -> outputs/gtm_business_review.pptx

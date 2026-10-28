@@ -86,3 +86,8 @@ def test_mcp_server_exposes_tools_and_checks_drafts():
 def test_hyphenated_labels_are_not_numbers(reg):
     # "month-1" and "Q4" are labels, not metrics; "-$30K" is a real negative figure
     assert not unsupported("Month-1 churn is 17.4% in Q4; portfolio sales were -$30K.", reg)
+
+
+def test_registry_has_37_kpis_and_4_definitions(reg):
+    assert sum(k.domain != "definition" for k in reg.values()) == 37
+    assert sum(k.domain == "definition" for k in reg.values()) == 4
