@@ -1,66 +1,104 @@
-# GTM Business Review Agent (MCP + Claude)
+<div align="center">
 
-**An MCP server that gives Claude governed access to go-to-market KPIs, and checks every number in an AI-drafted business review before it reaches leadership.**
+# GTM Business Review Agent
 
-LLMs write fluent leadership briefs, and they also round, guess and invent numbers. This project puts guardrails around that:
+**Let Claude draft the leadership business review. Make sure every number in it is true.**
 
-1. **Governed KPI registry:** 37 KPIs plus 4 analysis definitions (scenario sizes, cut-offs, horizons), each with a definition, unit, display format and source. Derived KPIs (gaps, growth rates) are computed from their inputs with the formula recorded, not typed into a slide.
-2. **MCP tools for Claude:** Claude pulls KPIs and drafting rules through the server instead of being pasted numbers.
-3. **Number checker:** `check_draft` extracts every figure from a draft (percentages, $K/$M, counts, percentage points) and traces each to a KPI, allowing only the rounding implied by how it is written. Anything untraceable comes back as unsupported.
-4. **Leadership deck:** a 5-slide business review (`outputs/gtm_business_review.pptx`) built only from checked numbers.
+[![CI](https://github.com/achux11/gtm-business-review-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/achux11/gtm-business-review-agent/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.11%2B-1E2761)
+![MCP](https://img.shields.io/badge/Model%20Context%20Protocol-server-E9A23B)
+![Tests](https://img.shields.io/badge/tests-15%20passing-3FA796)
+![License](https://img.shields.io/badge/license-MIT-8A94A6)
 
-## Data
+<img src="docs/slide-1.png" alt="Title slide of the generated business review deck" width="720">
 
-| Domain | Source | Real or simulated |
+</div>
+
+---
+
+## Why this exists
+
+AI can turn a dashboard into a polished leadership brief in seconds. It can also round a number the wrong way, mix up two metrics, or invent one, and a single wrong figure in front of leadership costs more credibility than the whole brief earns.
+
+This project keeps the speed and removes that risk:
+
+| | |
+|---|---|
+| 📚 **Governed KPIs** | 37 KPIs (plus 4 analysis definitions), each with a definition, unit, source and display format. Derived metrics carry their formula. |
+| 🔌 **MCP server for Claude** | Claude pulls approved numbers and drafting rules through tools, instead of having numbers pasted into a prompt. |
+| ✅ **Number checker** | Every figure in a draft is traced back to a KPI, allowing only the rounding implied by how it is written. |
+| 📊 **Leadership deck** | A 5-slide business review generated only from numbers that passed the checker. |
+
+## How it works
+
+```mermaid
+flowchart LR
+    A[(Subscription<br/>model workbook)] --> R
+    B[(Campaign<br/>results)] --> R
+    R[Governed KPI registry<br/>37 KPIs + formulas] --> M{{MCP server}}
+    M -->|get_review_context| C[Claude drafts<br/>the review]
+    C -->|check_draft| V{Every number<br/>traceable?}
+    V -->|no| C
+    V -->|yes| D[Brief + 5-slide<br/>leadership deck]
+```
+
+## The checker in action
+
+A draft with two subtle mistakes:
+
+> *FY2025 revenue hit **$3.5M**, up 30.7%. Web converts at 41.9% vs. 29.8% on Android, and we ran **285K** trials. Only 2 of 30 campaigns worked.*
+
+```json
+{
+  "numbers_checked": 7,
+  "supported": 5,
+  "unsupported": [
+    { "text": "$3.5M", "note": "not traceable to any governed KPI" },
+    { "text": "285K",  "note": "not traceable to any governed KPI" }
+  ],
+  "ready_to_share": false
+}
+```
+
+Revenue was **$3.37M**, not $3.5M. And 285,585 trials rounds to **286K**, so "285K" is quietly wrong; "285K+" passes.
+
+| Draft says | Result | Why |
 |---|---|---|
-| Subscription growth, funnel, churn, currency | [subscription-revenue-cohort-model](https://github.com/achux11/subscription-revenue-cohort-model) workbook (`data/subscription_revenue_model.xlsx`) | Simulated business |
-| Campaign performance, member value | Published results of [loyalty-promotion-roi](https://github.com/achux11/loyalty-promotion-roi) (`data/campaign_kpis.json`) | Real retail data (dunnhumby *The Complete Journey*) |
+| "Web converts at 41.9%" | ✅ Supported | Matches `conv_web` (41.88%) at one decimal |
+| "Web converts at 43%" | ❌ Unsupported | No KPI rounds to 43% |
+| "Portfolio sales were -$30K" | ✅ Supported | Matches `camp_portfolio_incremental` |
+| "Month-1 churn in Q4 2026" | ➖ Ignored | Labels and years are not metrics |
+
+## The deck it produces
+
+<img src="docs/deck_preview.png" alt="Four slides: revenue growth and currency drag, Android conversion gap, campaign results, and four recommendations" width="100%">
+
+**Storyline:** growth is real (on track for 27.1%), Android converts 12.1 pts below Web as mobile grows, only 2 of 30 campaigns moved sales, and four actions for the next planning cycle. Download: [`outputs/gtm_business_review.pptx`](outputs/gtm_business_review.pptx)
 
 ## MCP tools
 
 | Tool | What it does |
 |---|---|
 | `list_kpis(domain)` | All governed KPIs, or one domain (`subscription`, `campaign`, `definition`) |
-| `get_kpi(kpi_id)` | One KPI with definition, source and display format |
-| `get_review_context()` | KPIs grouped into 4 themes plus drafting rules |
-| `check_draft(text)` | Every number checked; returns unsupported numbers and `ready_to_share` |
+| `get_kpi(kpi_id)` | One KPI with its definition, source and display format |
+| `get_review_context()` | KPIs grouped into 4 themes, plus drafting rules |
+| `check_draft(text)` | Checks every number; returns what is unsupported and `ready_to_share` |
 
-Resources: `gtm://drafting-rules`, `gtm://reference-brief`.
+Resources: `gtm://drafting-rules` · `gtm://reference-brief`
 
-## What the checker catches
-
-| Draft says | Result | Why |
-|---|---|---|
-| "Web converts at 41.9%" | Supported | Matches `conv_web` (41.88%) at one decimal |
-| "Web converts at 43%" | **Unsupported** | No KPI rounds to 43% |
-| "Revenue hit $3.5M" | **Unsupported** | FY2025 revenue is $3.37M |
-| "We ran 285K trials" | **Unsupported** | 285,585 rounds to 286K; write "285K+" or "286K" |
-| "Portfolio sales were -$30K" | Supported | Matches `camp_portfolio_incremental` |
-| "Month-1 churn in Q4 2026" | Ignored | Labels and years are not metrics |
-
-## Reference brief and deck
-
-`python export_review.py` builds `outputs/business_review.md` from the registry and refuses to write it if any number is unsupported. `node build_deck.js` turns it into the 5-slide deck:
-
-1. Headline: growth is real, campaign spend is not working
-2. On track for 27.1% growth; currency is a drag (revenue chart, FX drag, forecast error, FX risk)
-3. Android converts 12.1 pts below Web as mobile grows (conversion chart, churn, renewal)
-4. Only 2 of 30 campaigns moved sales (campaign split, member concentration, attach rate)
-5. Four actions for the next planning cycle
-
-## Run
+## Quick start
 
 ```bash
 pip install -r requirements.txt
-pytest -q                      # 15 tests, including an end-to-end MCP client test
-python export_review.py        # validated brief -> outputs/
-npm install pptxgenjs          # once
-node build_deck.js             # deck -> outputs/gtm_business_review.pptx
+pytest -q                  # 15 tests, including an end-to-end MCP client test
+python export_review.py    # writes the validated brief to outputs/
+npm install && npm run deck  # builds outputs/gtm_business_review.pptx
 ```
 
-### Use it from Claude Desktop
+<details>
+<summary><b>Connect it to Claude Desktop</b></summary>
 
-Add to `claude_desktop_config.json` (use your own paths):
+Add this to `claude_desktop_config.json` (use your own paths), then restart Claude Desktop:
 
 ```json
 {
@@ -73,13 +111,41 @@ Add to `claude_desktop_config.json` (use your own paths):
 }
 ```
 
-Then ask: *"Use gtm-business-review to draft a one-page business review for leadership, then run check_draft and fix anything unsupported."*
+Then ask:
+
+> *Use gtm-business-review to draft a one-page business review for leadership, then run check_draft and fix anything unsupported.*
+
+</details>
+
+## Data
+
+| Domain | Source | Type |
+|---|---|---|
+| Growth, funnel, churn, currency | [subscription-revenue-cohort-model](https://github.com/achux11/subscription-revenue-cohort-model) workbook | Simulated business |
+| Campaigns, member value | [loyalty-promotion-roi](https://github.com/achux11/loyalty-promotion-roi) published results | Real retail data (dunnhumby *The Complete Journey*) |
+
+## Project layout
+
+```
+gtm_review/kpis.py      governed KPI registry (workbook + campaign results + derived formulas)
+gtm_review/validate.py  number checker
+gtm_review/brief.py     review context, drafting rules, reference brief
+server.py               MCP server (4 tools, 2 resources)
+export_review.py        validated brief -> outputs/
+build_deck.js           5-slide deck from the validated brief
+tests/                  15 tests
+```
 
 ## Limitations
 
-- The subscription business is simulated; campaign figures are taken from the published results table, not recomputed here.
-- The checker verifies that numbers trace to a KPI, not that the sentence uses the right KPI (a correct number in the wrong context can still pass). Pair it with a human read.
-- Small allowed values (scenario sizes, the top-25% cut-off, month 12, 24-month horizon) are registered as analysis definitions so they can appear in text.
+- The checker confirms a number traces to a KPI, not that it is used in the right sentence. A correct number in the wrong context can still pass, so a person still reads the final draft.
+- The subscription business is simulated. Campaign figures come from the published results table, not recomputed here.
+- Analysis settings (the 10% currency scenario, top-25% cut-off, month 12, 24-month horizon) are registered as definitions so they can appear in text.
 
 ---
-**Author:** Achintya Vamshi Nudurupati · [GitHub @achux11](https://github.com/achux11) · [LinkedIn](https://linkedin.com/in/achintya11)
+
+<div align="center">
+
+Built by **Achintya Vamshi Nudurupati** · [GitHub](https://github.com/achux11) · [LinkedIn](https://linkedin.com/in/achintya11)
+
+</div>

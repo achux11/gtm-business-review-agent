@@ -1,0 +1,7 @@
+{
+  "name": "gtm-business-review-agent",
+  "private": true,
+  "description": "Builds the leadership deck from the validated business review",
+  "scripts": { "deck": "node build_deck.js" },
+  "dependencies": { "pptxgenjs": "^3.12.0" }
+}
