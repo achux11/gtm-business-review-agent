@@ -1,0 +1,230 @@
+{
+  "kpis": {
+    "trials": {
+      "value": 285585.0,
+      "display": "285,585",
+      "name": "Trial starts, Jan 2022 - Dec 2025"
+    },
+    "active_subs": {
+      "value": 40925.0,
+      "display": "40,925",
+      "name": "Active subscribers, Dec 2025"
+    },
+    "conv_total": {
+      "value": 0.3684588099318481,
+      "display": "36.8%",
+      "name": "Trial-to-paid conversion"
+    },
+    "conv_web": {
+      "value": 0.4187886671002385,
+      "display": "41.9%",
+      "name": "Trial-to-paid conversion, Web"
+    },
+    "conv_ios": {
+      "value": 0.3511492097508706,
+      "display": "35.1%",
+      "name": "Trial-to-paid conversion, iOS"
+    },
+    "conv_android": {
+      "value": 0.2979981511587135,
+      "display": "29.8%",
+      "name": "Trial-to-paid conversion, Android"
+    },
+    "churn_m1": {
+      "value": 0.1741937230169579,
+      "display": "17.4%",
+      "name": "Month-1 churn, monthly plan"
+    },
+    "churn_m12": {
+      "value": 0.05795235028976175,
+      "display": "5.8%",
+      "name": "Month-12 churn, monthly plan"
+    },
+    "renewal_annual": {
+      "value": 0.700914034478769,
+      "display": "70.1%",
+      "name": "Annual-plan renewal rate"
+    },
+    "arpu": {
+      "value": 7.666600242504589,
+      "display": "$7.67",
+      "name": "Net ARPU, Dec 2025 (USD/month)"
+    },
+    "rev_fy25": {
+      "value": 3366538.686078599,
+      "display": "$3.37M",
+      "name": "FY2025 net revenue"
+    },
+    "growth_reported": {
+      "value": 0.3073510798069599,
+      "display": "30.7%",
+      "name": "FY25 revenue growth, reported"
+    },
+    "growth_cc": {
+      "value": 0.328373012553457,
+      "display": "32.8%",
+      "name": "FY25 revenue growth, constant currency"
+    },
+    "rev_fy26_fc": {
+      "value": 4279471.397140768,
+      "display": "$4.28M",
+      "name": "FY2026 net revenue forecast"
+    },
+    "rev_fy27_fc": {
+      "value": 5198414.849556163,
+      "display": "$5.20M",
+      "name": "FY2027 net revenue forecast"
+    },
+    "fx_risk": {
+      "value": 201314.9620733499,
+      "display": "$201K",
+      "name": "FY2026 revenue impact of a 10% currency move"
+    },
+    "non_usd_share": {
+      "value": 0.4704201603213282,
+      "display": "47.0%",
+      "name": "Non-USD share of revenue, Dec 2025"
+    },
+    "currencies": {
+      "value": 4.0,
+      "display": "4",
+      "name": "Billing currencies"
+    },
+    "mobile_share_start": {
+      "value": 0.4438092008810008,
+      "display": "44.4%",
+      "name": "Mobile share of net revenue, Jan 2024"
+    },
+    "mobile_share_end": {
+      "value": 0.4897626683138872,
+      "display": "49.0%",
+      "name": "Mobile share of net revenue, Dec 2025"
+    },
+    "mape24_model": {
+      "value": 0.02836356800985249,
+      "display": "2.8%",
+      "name": "24-month forecast error, cohort model (median of 10 runs)"
+    },
+    "mape24_naive": {
+      "value": 0.17611083373924397,
+      "display": "17.6%",
+      "name": "24-month forecast error, run-rate baseline (median of 10 runs)"
+    },
+    "conv_gap_web_android": {
+      "value": 12.079051594152501,
+      "display": "12.1 pts",
+      "name": "Conversion gap, Web vs. Android"
+    },
+    "fx_drag": {
+      "value": 2.1021932746497107,
+      "display": "2.1 pts",
+      "name": "FX drag on FY25 growth"
+    },
+    "growth_fy26_fc": {
+      "value": 0.2711784405856832,
+      "display": "27.1%",
+      "name": "FY2026 forecast growth vs. FY2025"
+    },
+    "camp_households": {
+      "value": 2500.0,
+      "display": "2,500",
+      "name": "Loyalty households analyzed"
+    },
+    "camp_transactions": {
+      "value": 2576882.0,
+      "display": "2,576,882",
+      "name": "Point-of-sale line items analyzed"
+    },
+    "camp_sales": {
+      "value": 8060000.0,
+      "display": "$8.06M",
+      "name": "Total sales analyzed"
+    },
+    "camp_total": {
+      "value": 30.0,
+      "display": "30",
+      "name": "Campaigns evaluated"
+    },
+    "camp_significant": {
+      "value": 2.0,
+      "display": "2",
+      "name": "Campaigns with significant lift (p < 0.05)"
+    },
+    "camp_portfolio_incremental": {
+      "value": -30000.0,
+      "display": "-$30K",
+      "name": "Portfolio incremental sales vs. control"
+    },
+    "member_spend_median": {
+      "value": 173.64,
+      "display": "$173.64",
+      "name": "Median spend per member per 4-week period"
+    },
+    "member_retention": {
+      "value": 0.897,
+      "display": "89.7%",
+      "name": "Median member retention, period to period"
+    },
+    "top25_sales_share": {
+      "value": 0.604,
+      "display": "60.4%",
+      "name": "Share of sales from top 25% of members"
+    },
+    "attach_coupon": {
+      "value": 0.581,
+      "display": "58.1%",
+      "name": "Soft-drink attach rate, coupon snack baskets"
+    },
+    "attach_no_coupon": {
+      "value": 0.478,
+      "display": "47.8%",
+      "name": "Soft-drink attach rate, non-coupon snack baskets"
+    },
+    "attach_gap": {
+      "value": 10.299999999999997,
+      "display": "10.3 pts",
+      "name": "Attach-rate gap, coupon vs. no coupon"
+    },
+    "fx_scenario": {
+      "value": 0.1,
+      "display": "10.0%",
+      "name": "Currency scenario size"
+    },
+    "top_tier": {
+      "value": 0.25,
+      "display": "25.0%",
+      "name": "Top spending tier cut-off"
+    },
+    "tenure_month": {
+      "value": 12,
+      "display": "12",
+      "name": "Tenure month for late churn"
+    },
+    "horizon_months": {
+      "value": 24,
+      "display": "24",
+      "name": "Long-range forecast horizon"
+    }
+  },
+  "brief": {
+    "Headline": [
+      "Revenue reached $3.37M in FY2025, up 30.7% reported and 32.8% at constant currency; the model forecasts $4.28M for FY2026 (27.1% growth).",
+      "Only 2 of 30 marketing campaigns produced a statistically significant sales lift, and the portfolio's incremental sales were -$30K versus control, which is indistinguishable from zero."
+    ],
+    "Drivers": [
+      "Web converts trials at 41.9% versus 29.8% on Android, a 12.1 pts gap, while mobile's share of revenue grew from 44.4% to 49.0%.",
+      "Churn falls from 17.4% in a subscriber's first month to 5.8% by month 12, so early-tenure retention drives the forecast.",
+      "The top 25% of members generate 60.4% of sales, and member retention is 89.7% period to period."
+    ],
+    "Risks": [
+      "47.0% of revenue is billed in non-USD currencies (4 currencies); a 10% currency move changes FY2026 revenue by $201K, and currency already cost 2.1 pts of FY2025 growth.",
+      "Short-term run-rate forecasts look fine but miss long-range dynamics: over 24 months the cohort model's error is 2.8% versus 17.6% for a run-rate baseline."
+    ],
+    "Recommendations": [
+      "Prioritize Android onboarding tests to close the 12.1 pts conversion gap as mobile becomes a larger share of revenue.",
+      "Stop scaling broad campaigns without a control group; fund the 2 that showed lift and re-test the rest.",
+      "Protect the top 25% of members, who drive 60.4% of sales, with retention offers rather than broad discounts.",
+      "Plan FY2026 on constant-currency numbers and show the $201K currency range alongside them."
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "github.com/achux11/loyalty-promotion-roi (README results, full dunnhumby Complete Journey run)",
+  "kpis": [
+    {"id": "camp_households", "name": "Loyalty households analyzed", "value": 2500, "unit": "count",
+     "definition": "Loyalty-card households in the dataset"},
+    {"id": "camp_transactions", "name": "Point-of-sale line items analyzed", "value": 2576882, "unit": "count",
+     "definition": "Transaction lines after loading, before validation exclusions"},
+    {"id": "camp_sales", "name": "Total sales analyzed", "value": 8060000, "unit": "usd",
+     "definition": "Sales across all transactions (reported as $8.06M)"},
+    {"id": "camp_total", "name": "Campaigns evaluated", "value": 30, "unit": "count",
+     "definition": "Marketing campaigns measured against untargeted members"},
+    {"id": "camp_significant", "name": "Campaigns with significant lift (p < 0.05)", "value": 2, "unit": "count",
+     "definition": "Pre/post difference-in-differences lift vs. untargeted members, p < 0.05"},
+    {"id": "camp_portfolio_incremental", "name": "Portfolio incremental sales vs. control", "value": -30000, "unit": "usd",
+     "definition": "Sum of campaign lifts; not distinguishable from zero"},
+    {"id": "member_spend_median", "name": "Median spend per member per 4-week period", "value": 173.64, "unit": "usd",
+     "definition": "Per-cap spend, median across 4-week periods"},
+    {"id": "member_retention", "name": "Median member retention, period to period", "value": 0.897, "unit": "pct",
+     "definition": "Share of active members in one 4-week period who are active in the next"},
+    {"id": "top25_sales_share", "name": "Share of sales from top 25% of members", "value": 0.604, "unit": "pct",
+     "definition": "Spend concentration in the highest-spending quartile"},
+    {"id": "attach_coupon", "name": "Soft-drink attach rate, coupon snack baskets", "value": 0.581, "unit": "pct",
+     "definition": "Share of snack baskets with a coupon that also contain a soft drink"},
+    {"id": "attach_no_coupon", "name": "Soft-drink attach rate, non-coupon snack baskets", "value": 0.478, "unit": "pct",
+     "definition": "Share of snack baskets without a coupon that also contain a soft drink"}
+  ]
+}
